@@ -1,0 +1,3 @@
+import libs = liblodepng%lib{lodepng}
+
+exe{driver}: {hxx cxx}{**} $libs testscript{**}

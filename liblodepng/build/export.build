@@ -1,0 +1,6 @@
+$out_root/
+{
+  include lodepng/
+}
+
+export $out_root/lodepng/$import.target
