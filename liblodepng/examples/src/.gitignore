@@ -1,0 +1,13 @@
+# Built example executables.
+#
+example_4bit_palette
+example_bmp2png
+example_decode
+example_encode
+example_encode_type
+example_gzip
+example_optimize_png
+example_png2bmp
+example_png_info
+example_reencode
+example_sdl

@@ -1,0 +1,1 @@
+../../../upstream/examples/example_4bit_palette.cpp

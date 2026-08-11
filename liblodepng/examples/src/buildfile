@@ -1,0 +1,30 @@
+# Upstream examples (demos, not tests). Most need PNG paths as argv.
+#
+# C examples are sources only: this package builds a C++ library, so C TUs
+# cannot link the C++-mangled C API. OpenGL demo is source-only (needs GL).
+#
+import libs = liblodepng%lib{lodepng}
+import? [rule_hint=cxx.link] sdl = libSDL2%libs{SDL2}
+
+have_sdl = (!$null($sdl))
+
+for n: example_decode \
+       example_encode \
+       example_encode_type \
+       example_gzip \
+       example_png_info \
+       example_png2bmp \
+       example_bmp2png \
+       example_reencode \
+       example_optimize_png \
+       example_4bit_palette
+{
+  ./: exe{$n}: cxx{$n} $libs
+}
+
+./: c{example_decode example_encode example_sdl}: include = false
+./: cxx{example_opengl}: include = false
+
+./: exe{example_sdl}: include = $have_sdl
+[rule_hint=cxx.link] \
+exe{example_sdl}: cxx{example_sdl} $libs $sdl

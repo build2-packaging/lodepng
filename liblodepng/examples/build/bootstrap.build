@@ -1,0 +1,6 @@
+project = # Unnamed examples subproject.
+
+using version
+using config
+using test
+using dist
