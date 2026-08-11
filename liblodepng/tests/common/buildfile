@@ -1,0 +1,11 @@
+# Shared utility used by upstream unit tests (and historically by pngdetail).
+# Not part of the public library API.
+#
+import libs = liblodepng%lib{lodepng}
+
+./: libue{lodepng_util}: {hxx cxx}{lodepng_util} $libs
+
+# Utility is tests-only: never install.
+#
+hxx{*}: install = false
+libue{lodepng_util}: bin.whole = true

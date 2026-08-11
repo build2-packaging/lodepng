@@ -1,0 +1,14 @@
+import libs = liblodepng%lib{lodepng}
+
+include ../common/
+
+./: exe{unittest}: cxx{lodepng_unittest} ../common/libue{lodepng_util} $libs \
+  testscript
+
+# unittest includes "lodepng_util.h" from tests/common/.
+# $src_root here is the tests/ subproject root.
+#
+exe{unittest}:
+{
+  cxx.poptions =+ "-I$src_root/common"
+}

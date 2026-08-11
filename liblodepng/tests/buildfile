@@ -1,1 +1,4 @@
+# common/ is a utility library for unit tests, not a test directory itself.
+# Still include it so libue{lodepng_util} is built when needed.
+#
 ./: {*/ -build/}
