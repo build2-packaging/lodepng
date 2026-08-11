@@ -1,16 +1,18 @@
 # Upstream examples (demos, not tests). Most need PNG paths as argv.
 #
-# C examples are sources only: this package builds a C++ library, so C TUs
-# cannot link the C++-mangled C API. OpenGL demo is source-only (needs GL).
+# C++-only examples need the C++ library. Dual-language examples (decode,
+# encode, sdl) use the C sources when config.liblodepng.cpp=false. OpenGL
+# demo is source-only (needs GL).
 #
-import libs = liblodepng%lib{lodepng}
+import! [metadata, rule_hint=cxx.link] libs = liblodepng%lib{lodepng}
 import? [rule_hint=cxx.link] sdl = libSDL2%libs{SDL2}
 
 have_sdl = (!$null($sdl))
+have_cpp = $($libs: liblodepng.cpp)
 
-for n: example_decode \
-       example_encode \
-       example_encode_type \
+# C++-only examples.
+#
+for n: example_encode_type \
        example_gzip \
        example_png_info \
        example_png2bmp \
@@ -19,12 +21,28 @@ for n: example_decode \
        example_optimize_png \
        example_4bit_palette
 {
-  ./: exe{$n}: cxx{$n} $libs
+  ./: exe{$n}: include = $have_cpp
+  exe{$n}: cxx{$n} $libs
 }
 
-./: c{example_decode example_encode example_sdl}: include = false
+# Dual-language examples: C++ or C depending on the library.
+#
+for n: example_decode example_encode
+{
+  ./: exe{$n}
+  exe{$n}: cxx{$n}: include = $have_cpp
+  exe{$n}: c{$n}:   include = (!$have_cpp)
+  exe{$n}: $libs
+}
+
 ./: cxx{example_opengl}: include = false
 
 ./: exe{example_sdl}: include = $have_sdl
 [rule_hint=cxx.link] \
-exe{example_sdl}: cxx{example_sdl} $libs $sdl
+exe{example_sdl}: cxx{example_sdl}: include = $have_cpp
+exe{example_sdl}: c{example_sdl}:   include = (!$have_cpp)
+exe{example_sdl}: $libs $sdl
+
+# Keep SDL sources in the distribution when SDL2 is absent.
+#
+./: {c cxx}{example_sdl}: include = (!$have_sdl)

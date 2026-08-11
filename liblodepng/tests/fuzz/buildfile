@@ -1,7 +1,9 @@
-# Upstream libFuzzer harness. Default: compile-check the translation unit
-# against the library API. A full fuzzer binary needs -fsanitize=fuzzer and is
-# not wired as an automated test here.
+# Upstream libFuzzer harness (C++ API). Compile-check only when the library
+# is built with C++ helpers.
 #
-import libs = liblodepng%lib{lodepng}
+import! [metadata, rule_hint=cxx.link] libs = liblodepng%lib{lodepng}
 
-./: obje{lodepng_fuzzer}: cxx{lodepng_fuzzer} $libs
+have_cpp = $($libs: liblodepng.cpp)
+
+./: obje{lodepng_fuzzer}: include = $have_cpp
+obje{lodepng_fuzzer}: cxx{lodepng_fuzzer} $libs

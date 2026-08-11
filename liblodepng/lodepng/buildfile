@@ -1,27 +1,39 @@
 intf_libs = # Interface dependencies.
 impl_libs = # Implementation dependencies.
 
-lib{lodepng}: libul{lodepng}: {hxx cxx}{**} $impl_libs $intf_libs
+lib{lodepng}: libul{lodepng}
 
-libs{lodepng}: def{lodepng}: include = ($cxx.target.system == 'win32-msvc')
+# Same upstream TU: C++ by default (lodepng.cpp), pure C via lodepng.c symlink
+# when config.liblodepng.cpp=false (upstream: rename .cpp to .c for C builds).
+#
+libul{lodepng}: hxx{lodepng} $impl_libs $intf_libs
+libul{lodepng}: cxx{lodepng}: include = ( $config.liblodepng.cpp)
+libul{lodepng}: c{lodepng}:   include = (!$config.liblodepng.cpp)
+
+libs{lodepng}: def{lodepng}: include = ($cc.target.system == 'win32-msvc')
 def{lodepng}: libul{lodepng}
 
-# Build options.
+# Build options (cc.* applies to both c and cxx).
 #
-# Point at this directory so sources and consumers resolve <lodepng.h>.
-#
-cxx.poptions =+ "-I$out_base" "-I$src_base"
+cc.poptions =+ "-I$out_base" "-I$src_base"
 
-if ($cxx.target.system == 'mingw32')
-  cxx.loptions += -Wl,--export-all-symbols
+if ($cc.target.system == 'mingw32')
+  cc.loptions += -Wl,--export-all-symbols
 
-# Export options.
+# Export options. When built as C, also push LODEPNG_NO_COMPILE_CPP so C++
+# consumers do not see lodepng:: APIs that are not in this binary.
 #
 lib{lodepng}:
 {
-  cxx.export.poptions = "-I$out_base" "-I$src_base"
-  cxx.export.libs = $intf_libs
+  cc.export.poptions = "-I$out_base" "-I$src_base"
+  cc.export.libs = $intf_libs
+
+  export.metadata = 1 liblodepng
+  liblodepng.cpp = [bool] $config.liblodepng.cpp
 }
+
+if (!$config.liblodepng.cpp)
+  lib{lodepng}: cc.export.poptions += -DLODEPNG_NO_COMPILE_CPP
 
 # For pre-releases use the complete version to make sure they cannot
 # be used in place of another pre-release or the final version. See

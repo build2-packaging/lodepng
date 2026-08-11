@@ -1,3 +1,14 @@
-import libs = liblodepng%lib{lodepng}
+import! [metadata, rule_hint=cxx.link] libs = liblodepng%lib{lodepng}
 
-exe{driver}: {hxx cxx}{**} $libs testscript
+have_cpp = $($libs: liblodepng.cpp)
+
+# C++ smoke (default package build).
+#
+./: exe{driver}: include = $have_cpp
+exe{driver}: cxx{driver} $libs testscript
+
+# Pure C smoke (config.liblodepng.cpp=false).
+#
+./: exe{driver_c}: include = (!$have_cpp)
+[rule_hint=c.link] \
+exe{driver_c}: c{driver} $libs testscript

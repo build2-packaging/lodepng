@@ -2,6 +2,10 @@
 #
 #cxx.internal.scope = current
 
+# Build the codec as C++ (default) or pure C (config.liblodepng.cpp=false).
+#
+config [bool] config.liblodepng.cpp ?= true
+
 cxx.std = latest
 
 using cxx

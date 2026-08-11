@@ -1,9 +1,12 @@
 # Shared utility used by upstream unit tests (and historically by pngdetail).
-# Not part of the public library API.
+# Not part of the public library API. C++-only (needs lodepng::).
 #
-import libs = liblodepng%lib{lodepng}
+import! [metadata, rule_hint=cxx.link] libs = liblodepng%lib{lodepng}
 
-./: libue{lodepng_util}: {hxx cxx}{lodepng_util} $libs
+have_cpp = $($libs: liblodepng.cpp)
+
+./: libue{lodepng_util}: include = $have_cpp
+libue{lodepng_util}: {hxx cxx}{lodepng_util} $libs
 
 # Utility is tests-only: never install.
 #

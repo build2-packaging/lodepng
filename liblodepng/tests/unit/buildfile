@@ -1,8 +1,13 @@
-import libs = liblodepng%lib{lodepng}
+import! [metadata, rule_hint=cxx.link] libs = liblodepng%lib{lodepng}
 
 include ../common/
 
-./: exe{unittest}: cxx{lodepng_unittest} ../common/libue{lodepng_util} $libs \
+have_cpp = $($libs: liblodepng.cpp)
+
+# Upstream unittest is C++-only.
+#
+./: exe{unittest}: include = $have_cpp
+exe{unittest}: cxx{lodepng_unittest} ../common/libue{lodepng_util} $libs \
   testscript
 
 # unittest includes "lodepng_util.h" from tests/common/.
