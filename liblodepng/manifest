@@ -1,15 +1,19 @@
 : 1
 name: liblodepng
-version: 0.1.0-a.0.z
+version: 2026.1.19-a.0.z
+upstream-version: 20260119
+language: c
 language: c++
-project: build2-lodepng
-summary: lodepng C++ library
+project: lodepng
+summary: PNG encoder and decoder C library
 license: Zlib
+topics: graphics, image, png, encoder, decoder
 description-file: README.md
 package-description-file: PACKAGE-README.md
-url: https://example.org/upstream
-email: upstream@example.org
-package-url: https://github.com/build2-packaging/build2-lodepng
+url: https://lodev.org/lodepng/
+doc-url: https://lodev.org/lodepng/
+src-url: https://github.com/lvandeve/lodepng
+package-url: https://github.com/build2-packaging/lodepng
 package-email: packaging@build2.org ; Mailing list.
 depends: * build2 >= 0.18.0
 depends: * bpkg >= 0.18.0
