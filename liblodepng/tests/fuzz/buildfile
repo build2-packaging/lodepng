@@ -1,0 +1,7 @@
+# Upstream libFuzzer harness. Default: compile-check the translation unit
+# against the library API. A full fuzzer binary needs -fsanitize=fuzzer and is
+# not wired as an automated test here.
+#
+import libs = liblodepng%lib{lodepng}
+
+./: obje{lodepng_fuzzer}: cxx{lodepng_fuzzer} $libs

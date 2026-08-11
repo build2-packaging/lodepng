@@ -1,0 +1,13 @@
+# Upstream benchmark (SDL2 timing, PNG paths as argv). Optional, not a default test.
+#
+import libs = liblodepng%lib{lodepng}
+import? [rule_hint=cxx.link] sdl = libSDL2%libs{SDL2}
+
+have_sdl = (!$null($sdl))
+
+./: exe{benchmark}: include = $have_sdl
+[rule_hint=cxx.link] \
+exe{benchmark}: cxx{lodepng_benchmark} $libs $sdl testscript
+{
+  test = false
+}
