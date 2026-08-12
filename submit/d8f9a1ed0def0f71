@@ -1,0 +1,9 @@
+: 1
+name: liblodepng
+version: 2026.1.19
+upstream-version: 20260119
+language: c
+language: c++
+project: lodepng
+summary: PNG encoder and decoder C library
+license: Zlib

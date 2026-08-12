@@ -1,0 +1,8 @@
+: 1
+name: lodepng-utils
+version: 2026.1.19
+upstream-version: 20260119
+language: c++
+project: lodepng
+summary: command-line PNG file inspector
+license: Zlib
