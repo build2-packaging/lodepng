@@ -1,9 +1,11 @@
-# lodepng-utils - An executable
+# lodepng-utils - command-line PNG file inspector
 
-This is a `build2` package for the [`<UPSTREAM-NAME>`](https://<UPSTREAM-URL>)
-executable. It is a <SUMMARY-OF-FUNCTIONALITY>.
+This is a `build2` package for the [LodePNG](https://lodev.org/lodepng/)
+`pngdetail` utility. It prints PNG header, chunk, palette, and compression
+information.
 
-Note that the `lodepng-utils` executable in this package provides `build2` metadata.
+The package depends on `liblodepng` at the same version and requires the
+C++ wrapper (`config.liblodepng.cpp=true`).
 
 
 ## Usage
@@ -13,13 +15,17 @@ To start using `lodepng-utils` in your project, add the following build-time
 appropriate:
 
 ```
-depends: * lodepng-utils ^<VERSION>
+depends: * lodepng-utils == 2026.1.19
 ```
+
+The package version is a semver-shaped coercion of the upstream date version
+(`upstream-version: 20260119`). Use an exact or revision constraint rather
+than `^` or `~`.
 
 Then import the executable in your `buildfile`:
 
 ```
-import! [metadata] <TARGET> = lodepng-utils%exe{<TARGET>}
+import! pngdetail = lodepng-utils%exe{pngdetail}
 ```
 
 
@@ -28,18 +34,13 @@ import! [metadata] <TARGET> = lodepng-utils%exe{<TARGET>}
 This package provides the following importable targets:
 
 ```
-exe{<TARGET>}
+exe{pngdetail}
 ```
 
-<DESCRIPTION-OF-IMPORTABLE-TARGETS>
+The `pngdetail` command-line tool for inspecting PNG files.
 
 
 ## Configuration variables
 
-This package provides the following configuration variables:
-
-```
-[bool] config.lodepng_utils.<VARIABLE> ?= false
-```
-
-<DESCRIPTION-OF-CONFIG-VARIABLES>
+This package has no configuration variables. Its `liblodepng` dependency
+requires the C++ wrapper (`config.liblodepng.cpp=true`).

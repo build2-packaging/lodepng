@@ -6,8 +6,11 @@ dependencies.
 
 This file contains setup instructions and other details that are more
 appropriate for development rather than consumption. If you want to use
-`liblodepng` in your `build2`-based project, then instead see the accompanying
-[`PACKAGE-README.md`](liblodepng/PACKAGE-README.md) file.
+these packages in your `build2`-based project, then instead see the
+accompanying PACKAGE-README files:
+
+- [`liblodepng`](liblodepng/PACKAGE-README.md)
+- [`lodepng-utils`](lodepng-utils/PACKAGE-README.md)
 
 The development setup uses the standard `bdep`-based workflow. For example:
 
