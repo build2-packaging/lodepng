@@ -1,9 +1,14 @@
 libs =
-#import libs += libhello%lib{hello}
+import libs += liblodepng%lib{lodepng}
 
-exe{lodepng-utils}: {hxx cxx}{**} $libs testscript
+exe{pngdetail}: {hxx cxx}{**} $libs testscript
 
 out_pfx = [dir_path] $out_root/src/
 src_pfx = [dir_path] $src_root/src/
 
 cxx.poptions =+ "-I$out_pfx" "-I$src_pfx"
+
+# lodepng_util.h is a private helper, not a public header.
+#
+hxx{*}: install = false
+

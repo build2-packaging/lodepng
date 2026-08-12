@@ -1,5 +1,5 @@
-lodepng-utils
+pngdetail
 
 # Testscript output directory (can be symlink).
 #
-test-lodepng-utils
+test-pngdetail
