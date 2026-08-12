@@ -1,9 +1,13 @@
-: basics
+: help
 :
-$* 'World' >'Hello, World!'
+$* -h >>~/EOO/
+/pngdetail by Lode Vandevenne/
+/.*
+EOO
 
-: missing-name
+: no-file
 :
-$* 2>>EOE != 0
-error: missing name
-EOE
+$* >>~/EOO/
+/Please provide a filename to preview/
+/.*
+EOO
