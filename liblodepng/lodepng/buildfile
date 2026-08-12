@@ -17,6 +17,9 @@ def{lodepng}: libul{lodepng}
 #
 cc.poptions =+ "-I$out_base" "-I$src_base"
 
+obja{*}: cc.poptions += -DLIBLODEPNG_STATIC_BUILD
+objs{*}: cc.poptions += -DLIBLODEPNG_SHARED_BUILD
+
 if ($cc.target.system == 'mingw32')
   cc.loptions += -Wl,--export-all-symbols
 
@@ -31,6 +34,9 @@ lib{lodepng}:
   export.metadata = 1 liblodepng
   liblodepng.cpp = [bool] $config.liblodepng.cpp
 }
+
+liba{lodepng}: cc.export.poptions += -DLIBLODEPNG_STATIC
+libs{lodepng}: cc.export.poptions += -DLIBLODEPNG_SHARED
 
 if (!$config.liblodepng.cpp)
   lib{lodepng}: cc.export.poptions += -DLODEPNG_NO_COMPILE_CPP

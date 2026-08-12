@@ -1,0 +1,54 @@
+--- lodepng.h.orig	2026-08-11 23:48:30
++++ lodepng.h	2026-08-12 03:13:27
+@@ -28,8 +28,32 @@
+ 
+ #include <string.h> /*for size_t*/
+ 
+-extern const char* LODEPNG_VERSION_STRING;
++/* Symbol visibility for Windows shared library consumers of global data.
++ * Function symbols still use auto-symexport (.def / --export-all-symbols).
++ * Driven by LIBLODEPNG_{STATIC,SHARED}{,_BUILD} from the buildfile. */
++#if defined(LIBLODEPNG_STATIC)         /* Using static. */
++#  define LIBLODEPNG_SYMEXPORT
++#elif defined(LIBLODEPNG_STATIC_BUILD) /* Building static. */
++#  define LIBLODEPNG_SYMEXPORT
++#elif defined(LIBLODEPNG_SHARED)       /* Using shared. */
++#  ifdef _WIN32
++#    define LIBLODEPNG_SYMEXPORT __declspec(dllimport)
++#  else
++#    define LIBLODEPNG_SYMEXPORT
++#  endif
++#elif defined(LIBLODEPNG_SHARED_BUILD) /* Building shared. */
++#  ifdef _WIN32
++#    define LIBLODEPNG_SYMEXPORT __declspec(dllexport)
++#  else
++#    define LIBLODEPNG_SYMEXPORT
++#  endif
++#else
++/* Fallback: fine for function-only export, not for global data on Windows. */
++#  define LIBLODEPNG_SYMEXPORT
++#endif
+ 
++LIBLODEPNG_SYMEXPORT extern const char* LODEPNG_VERSION_STRING;
++
+ /*
+ The following #defines are used to create code sections. They can be disabled
+ to disable code sections, which can give faster compile time and smaller binary.
+@@ -338,7 +362,7 @@
+   const void* custom_context; /*optional custom settings for custom functions*/
+ };
+ 
+-extern const LodePNGDecompressSettings lodepng_default_decompress_settings;
++LIBLODEPNG_SYMEXPORT extern const LodePNGDecompressSettings lodepng_default_decompress_settings;
+ void lodepng_decompress_settings_init(LodePNGDecompressSettings* settings);
+ #endif /*LODEPNG_COMPILE_DECODER*/
+ 
+@@ -371,7 +395,7 @@
+   const void* custom_context; /*optional custom settings for custom functions*/
+ };
+ 
+-extern const LodePNGCompressSettings lodepng_default_compress_settings;
++LIBLODEPNG_SYMEXPORT extern const LodePNGCompressSettings lodepng_default_compress_settings;
+ void lodepng_compress_settings_init(LodePNGCompressSettings* settings);
+ #endif /*LODEPNG_COMPILE_ENCODER*/
+ 
