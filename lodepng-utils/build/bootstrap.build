@@ -1,0 +1,7 @@
+project = lodepng-utils
+
+using version
+using config
+using test
+using install
+using dist

@@ -1,2 +1,5 @@
 : 1
 location: liblodepng/
+
+:
+location: lodepng-utils/
