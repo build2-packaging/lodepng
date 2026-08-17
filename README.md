@@ -15,7 +15,7 @@ accompanying PACKAGE-README files:
 The development setup uses the standard `bdep`-based workflow. For example:
 
 ```
-git clone --recurse-submodules .../lodepng.git
+git clone --recurse-submodules https://github.com/build2-packaging/lodepng.git
 cd lodepng
 
 bdep init -C @gcc cc config.cxx=g++
